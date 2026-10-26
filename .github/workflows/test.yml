@@ -25,14 +25,16 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
         with:
-          go-version-file: 'go.mod'
+          # Go 1.27.3 fixes crypto/x509 verification of compromised eMudhra/emSign certificates.
+          go-version: '1.27.3'
           cache: true
       - run: go mod download
       - run: go build -v .
       - name: Run linters
-        uses: golangci/golangci-lint-action@3a919529898de77ec3da873e3063ca4b10e7f5cc # v3.7.0
+        # golangci-lint 2.15.0 supports package analysis with the Go 1.27 compiler.
+        uses: golangci/golangci-lint-action@d583c34f0599d37dbac4a198b9c83201be380893 # v9.3.0
         with:
-          version: latest
+          version: v2.15.0
 
   generate:
     runs-on: ubuntu-latest
@@ -40,7 +42,8 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
         with:
-          go-version-file: 'go.mod'
+          # Go 1.27.3 fixes crypto/x509 verification of compromised eMudhra/emSign certificates.
+          go-version: '1.27.3'
           cache: true
       - run: go generate ./...
       - name: git diff
@@ -68,7 +71,8 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
         with:
-          go-version-file: 'go.mod'
+          # Go 1.27.3 fixes crypto/x509 verification of compromised eMudhra/emSign certificates.
+          go-version: '1.27.3'
           cache: true
       - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3.0.0
         with:
